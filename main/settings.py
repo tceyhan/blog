@@ -58,10 +58,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'main.urls'
 
+# Templates Directory
+TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+         #  Add  'TEMPLATE_DIR' here
+        'DIRS': [TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -134,3 +138,4 @@ MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 AUTH_USER_MODEL = 'users.User'
+

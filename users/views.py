@@ -8,11 +8,7 @@ from .forms import UserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-
 # Create your views here.
-
-def home(request):
-    return render(request, 'users/home.html')
 
 def register(request):
     form = UserForm()
@@ -27,7 +23,7 @@ def register(request):
             # want user to login right after registered, import login
             login(request, user)
             # want to redirect to home page, import redirect
-            return redirect('home')
+            return redirect('post_list')
 
     context = {
         'form_user': form
@@ -38,7 +34,8 @@ def register(request):
 def user_logout(request):
     messages.success(request, "You are Logout!")
     logout(request)
-    return redirect('home')
+    return redirect('user_login')
+    
 
 def user_login(request):
 
@@ -49,5 +46,11 @@ def user_login(request):
         if user:
             messages.success(request, "Login successfull")
             login(request, user)
-            return redirect('home')
-    return render(request, 'users/user_login.html', {"form": form})
+            return redirect('post_list')
+    return render(request, 'users/login.html', {"form": form})
+
+def user_profile(request):
+    return render(request, 'users/profile.html')
+
+def about(request):
+    return render(request, 'users/about.html')

@@ -1,0 +1,19 @@
+<div class="card m-4" id="blogCard">
+    <img
+      class="img mx-auto"
+      src="{{ post.image.url }}"
+      alt="Card image capture"
+    />
+    <div class="card-body">
+      <h5 class="card-header text-center text-uppercase">
+        <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+      </h5>
+
+      <p class="text-left m-2">
+        {{post.content|slice:":200" }}<a href="{% url 'post_detail' post.id %}">
+          Read More....</a
+        >
+      </p>
+    </div>
+    {% include "./icons.html" %}
+</div>

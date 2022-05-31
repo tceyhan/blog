@@ -15,14 +15,15 @@
     <link rel="stylesheet" href=" {% static 'users/css/bootstrap.min.css' %}" />
     {% endcomment %}
 
-    <link rel="stylesheet" href=" {% static 'users/css/style.css' %}  " />
+    <link rel="stylesheet" href=" {% static 'blog/css/style.css' %} " />
+    <link rel="stylesheet" href=" {% static 'users/css/style.css' %} " />
 
-    <title>Blog App Django</title>
+    <title>Tarık CEYHAN Blog</title>
 </head>
 
 <body>
-    {% include "users/navbar.html" %}
-    <div style="margin-top: 100px; margin-bottom: 100px" class="container">
+    {% include "./navbar.html" %}
+    <div style="margin-top: 100px; margin-bottom: 100px" class="col-md-12">
         {% if messages %}
         {% for message in messages %}
         {% if message.tags == "error" %}
@@ -34,9 +35,11 @@
         {% endif %}
         {% endfor %}
         {% endif %}
+
         {% block content %}
         {% endblock content %}
     </div>
+    {% include "./footer.html" %}
     
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
@@ -48,6 +51,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
     <script src="{% static 'users/js/timeout.js' %}"></script>
+    <script src="{% static 'blog/js/timeout.js' %}"></script>
 </body>
 
 </html>

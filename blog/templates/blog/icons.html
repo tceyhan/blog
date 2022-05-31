@@ -1,0 +1,19 @@
+<div class="card-footer m-2">
+    <button type="button" class="btn btn-outline-info">
+      <img src="../../static/blog/images/chat-left.svg" />
+      <span class="badge badge-info">{{post.comments.count}}</span>
+    </button>
+
+    <button type="button" class="btn btn-outline-info">
+      <img src="../../static/blog/images/eye-fill.svg" />
+      <span class="badge badge-info">{{post.views.count}}</span>
+    </button>
+
+    <button type="button" class="btn btn-outline-info">
+      <img src="../../static/blog/images/suit-heart-fill.svg" />
+      <span class="badge badge-info">{{post.likes.count}}</span>
+    </button>
+    <div class="card-footer text-center m-2">
+      {{post.created_on|date:"d/m/Y"}} | {{post.author}}
+    </div>
+  </div>

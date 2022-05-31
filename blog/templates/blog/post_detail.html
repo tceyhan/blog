@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}   
+
+<div class="card" id="blogCard">
+  <div class="h1 text-uppercase text-center text-gray-dark bg-warning">{{ post.title }}</div>
+  <img
+    class="mx-auto w-50 h-50"
+    id="blogImage"
+    src="{{ post.image.url }}"
+    alt="Card image capture"
+  />
+  <div class="card-body">       
+    <p class="text-left m-2">{{post.content|safe }}</p>  
+  </div>
+  {% include "./icons.html" %}
+</div>
+
+{% include "./comment.html" %}
+
+
+{% endblock content %}
