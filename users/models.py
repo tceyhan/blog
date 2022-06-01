@@ -8,3 +8,11 @@ class User(AbstractUser):
     username =models.EmailField("Email Address", unique=True)
     REQUIRED_FIELDS =[] 
     # emaili sormasın diye boş bıraktık
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+    location = models.CharField(max_length=30, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+    # bir userin birden fazla profile olabilir
+    

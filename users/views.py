@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .forms import UserForm
+from .forms import UserForm, UserProfileForm
 # add authenticate and login
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -50,7 +50,14 @@ def user_login(request):
     return render(request, 'users/login.html', {"form": form})
 
 def user_profile(request):
-    return render(request, 'users/profile.html')
+    user_form =UserForm(request.POST or None, instance=request.user)
+    profile_form = UserProfileForm(request.POST or None, instance=request.user.profile, files = request.FILES)
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form
+    }
+    return render(request, 'users/profile.html', context)
 
 def about(request):
     return render(request, 'users/about.html')
