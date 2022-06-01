@@ -1,5 +1,5 @@
 from django.views import generic
-from .models import Post
+from .models import Post, Comment
 from .forms import CommentForm, PostForm
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse,reverse_lazy
@@ -20,57 +20,52 @@ class PostCreate(generic.CreateView):
         return super().form_valid(form)
 
     
-''' def post_detail(request, id):
-    post = get_object_or_404(Post, id=id)
-    comments = post.comments.filter(active=True)
-    new_comment = None
+# def post_detail(request, id):
+#     post = get_object_or_404(Post, id=id)
+#     comments = post.comments.filter(active=True)
+#     new_comment = None
 
-    # Comment posted
-    if request.method == 'POST':
-        comment_form = CommentForm(data=request.POST)
-        if comment_form.is_valid():
+#     # Comment posted
+#     if request.method == 'POST':
+#         comment_form = CommentForm(data=request.POST)
+#         if comment_form.is_valid():
 
-            # Create Comment object but don't save to database yet
-            new_comment = comment_form.save(commit=False)
-            # Assign the current post to the comment
-            new_comment.post = post
-            new_comment.user = request.user
-            # Save the comment to the database
-            new_comment.save()
-    else:
-        comment_form = CommentForm()
+#             # Create Comment object but don't save to database yet
+#             new_comment = comment_form.save(commit=False)
+#             # Assign the current post to the comment
+#             new_comment.post = post
+#             new_comment.user = request.user
+#             # Save the comment to the database
+#             new_comment.save()
+#     else:
+#         comment_form = CommentForm()
 
-    context = {
-        'post': post,
-        'comments': comments,
-        'new_comment': new_comment,
-        'comment_form': comment_form,
-    }
+#     context = {
+#         'post': post,
+#         'comments': comments,
+#         'new_comment': new_comment,
+#         'comment_form': comment_form,
+#     }
 
-    return render(request, "blog/post_detail", context) '''
+#     return render(request, "blog/post_detail", context)
 
 class PostDetail(generic.DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
     pk_url_kwarg="id" 
-    # comment posted
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        context = self.get_context_data(object=self.object)
-        return self.render_to_response(context)
-        
+
+class PostComment(generic.DetailView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'blog/comment.html'
+    pk_url_kwarg="id"
 
 class PostUpdate(generic.UpdateView):
     model = Post
     form_class = PostForm
     template_name = "blog/post_update.html"
     success_url = reverse_lazy("post_list")
-
-    def form_valid(self, form):
-        self.object = form.save()
-        if not self.object.image:
-            self.object.image = "default.png"
-        return super().form_valid(form)
+    pk_url_kwarg="id"
     
 
 class PostDelete(generic.DeleteView):

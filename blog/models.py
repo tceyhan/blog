@@ -1,14 +1,7 @@
 from django.db import models
 from users.models import User
-from django.template.defaultfilters import slugify
-import uuid
-
-
-
-STATUS = (
-    (0,"Draft"),
-    (1,"Publish")
-)
+# from django.template.defaultfilters import slugify
+# import uuid
 
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
@@ -18,6 +11,12 @@ class Post(models.Model):
     updated_on = models.DateTimeField(auto_now= True)
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
+
+    STATUS = (
+    (0,"Draft"),
+    (1,"Publish")
+    )
+
     status = models.IntegerField(choices=STATUS, default=0)
     
 
@@ -41,7 +40,7 @@ class Post(models.Model):
         return self.comments.filter(active=True)
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post,on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(Post,on_delete=models.CASCADE)
     name = models.CharField(max_length=80)
     email = models.EmailField()
     body = models.TextField()
@@ -54,7 +53,7 @@ class Comment(models.Model):
     def __str__(self):
         return 'Comment {} by {}'.format(self.body, self.name)
 
-class Like(models.Model):
+''' class Like(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -63,6 +62,6 @@ class Like(models.Model):
         ordering = ['-created_on']
 
     def __str__(self):
-        return 'Like {} by {}'.format(self.post, self.user)
+        return 'Like {} by {}'.format(self.post, self.user) '''
      
 
