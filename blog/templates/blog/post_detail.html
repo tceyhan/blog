@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}   
-
+{% if user.is_authenticated %}
 <div class="card" id="blogCard">
   <div class="h1 text-uppercase text-center text-gray-dark bg-warning">{{ post.title }}</div>
   <img
@@ -27,13 +27,19 @@
       <a href="{% url 'post_update' post.id %}" class="btn btn-warning">Edit</a>
       <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">Delete</a>
     </div>
-
- 
 </div>
 
-{% comment %} {% include "./comment.html" %} {% endcomment %}
+{% else %}
 
+<div class="container">
+  <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h3 class="bg-danger">Please Log In for detail..</h3>      
+      </div>
+  </div>
+</div>
 
+{% endif %}
 
-
+  
 {% endblock content %}
