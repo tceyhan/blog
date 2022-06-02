@@ -14,7 +14,7 @@ def register(request):
     form_user = UserForm()
     if request.method == 'POST':
         form_user = UserForm(request.POST, request.FILES)
-        if form.is_valid():
+        if form_user.is_valid():
             user = form_user.save()            
             login(request, user)
             return redirect('post_list')
