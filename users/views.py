@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .forms import UserForm, UserProfileForm
+from .forms import UserForm, UserProfileForm, UpdateUserForm
 # add authenticate and login
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -11,24 +11,17 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def register(request):
-    form = UserForm()
-
+    form_user = UserForm()
     if request.method == 'POST':
-        # pass in post data when instantiate the form.
-        form = UserForm(request.POST, request.FILES)
-        # if the form is ok with the info filled:
+        form_user = UserForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save()
-            
-            # want user to login right after registered, import login
+            user = form_user.save()            
             login(request, user)
-            # want to redirect to home page, import redirect
             return redirect('post_list')
 
     context = {
-        'form_user': form
+        'form_user': form_user        
     }
-
     return render(request, "users/register.html", context)
 
 def user_logout(request):
@@ -38,7 +31,6 @@ def user_logout(request):
     
 
 def user_login(request):
-
     form = AuthenticationForm(request, data=request.POST)
 
     if form.is_valid():
@@ -47,15 +39,27 @@ def user_login(request):
             messages.success(request, "Login successfull")
             login(request, user)
             return redirect('post_list')
+
     return render(request, 'users/login.html', {"form": form})
 
+@login_required(login_url="/users/login/")
 def user_profile(request):
-    user_form =UserForm(request.POST or None, instance=request.user)
-    profile_form = UserProfileForm(request.POST or None, instance=request.user.profile, files = request.FILES)
-
-    context = {
-        'user_form': user_form,
-        'profile_form': profile_form
+    if request.method == 'POST':
+        update_form = UpdateUserForm(request.POST, instance=request.user)           
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        if update_form.is_valid() and profile_form.is_valid():
+            update_form.save()
+            profile_form.save()
+            messages.success(request, "Profile updated successfully")
+            return redirect('post_list')
+    else:
+        profile_form = UserProfileForm()
+        update_form = UpdateUserForm()
+  
+    context = {       
+        'profile_form': profile_form,
+        'update_form': update_form
+      
     }
     return render(request, 'users/profile.html', context)
 

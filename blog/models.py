@@ -6,7 +6,8 @@ from users.models import User
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True, null=True,)
-    image = models.ImageField(upload_to='images/', blank=False)
+    image = models.ImageField(upload_to='images/', blank=True)
+    imageUrl = models.URLField(blank=False, default='https://picsum.photos/seed/picsum/200/300')
     author = models.ForeignKey(User, on_delete= models.CASCADE, related_name='post_crated')
     updated_on = models.DateTimeField(auto_now= True)
     content = models.TextField()

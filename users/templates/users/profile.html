@@ -3,21 +3,25 @@
 {% block content %}
 
 {% load crispy_forms_tags %}
+
+{% if request.user.is_authenticated %}
 <div class="container">
     <header class="text-info text-center h2 bg-inverse col-md-6">Profile</header>
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-default">                
                 <div class="panel-body">
+                    <img src="{{ user.profile.profile_pic.url }}" class="img-responsive img-circle">
                     <form action="" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        {{ user_form | crispy }}   
+                        {{ update_form | crispy }}   
                         {{ profile_form | crispy }}
-                    <input type="submit" value="Save" class="btn btn-primary">
+                        <input type="submit" value="Save" class="btn btn-primary">
+                        <input type="reset" value="Reset" class="btn btn-default">
                     </form>  
                 </div>
             </div>
         </div>
     </div>
-
+{% endif %}
 {% endblock content %}

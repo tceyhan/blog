@@ -10,9 +10,10 @@ class User(AbstractUser):
     # emaili sormasın diye boş bıraktık
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
-    location = models.CharField(max_length=30, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-    # bir userin birden fazla profile olabilir
+    profile_pic = models.ImageField(upload_to='profile_pics', default='default.jpg')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.user.username
+   
     
