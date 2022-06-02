@@ -4,12 +4,9 @@ from django import forms
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('title', 'content', 'status', 'image')
-        widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'content': forms.Textarea(attrs={'class': 'form-control'}),
-            'status': forms.Select(attrs={'class': 'form-control'}),
-            'image': forms.FileInput(attrs={'class': 'form-control'}),
+        fields = ('title', 'content', 'status', 'image',)
+        widgets = {            
+            'image': forms.FileInput(attrs={'class': 'form-control bg-info'}),
         }    
    
 
