@@ -6,11 +6,11 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ('title', 'content', 'status', 'imageUrl')
         widgets = {            
-            'image': forms.FileInput(attrs={'class': 'form-control bg-info'}),
+            'imageUrl': forms.FileInput(attrs={'class': 'form-control bg-info'}),
         }    
    
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('name', 'email', 'body')
+        fields = ('user', 'content',)

@@ -20,39 +20,35 @@ class PostCreate(generic.CreateView):
         return super().form_valid(form)
 
     
-# def post_detail(request, id):
-#     post = get_object_or_404(Post, id=id)
-#     comments = post.comments.filter(active=True)
-#     new_comment = None
+def post_detail(request, id):
+    post = get_object_or_404(Post, id=id)
+    comments = Comment.objects.filter(post=post).order_by('-id')  
 
-#     # Comment posted
-#     if request.method == 'POST':
-#         comment_form = CommentForm(data=request.POST)
-#         if comment_form.is_valid():
+    
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST or None)
+        if comment_form.is_valid():#             
+            comment = comment_form.save(commit=False)
+            # Assign the current post to the comment
+            ncomment.post = post
+            comment.user = request.user
+            # Save the comment to the database
+            comment.save()
+    else:
+        comment_form = CommentForm()
 
-#             # Create Comment object but don't save to database yet
-#             new_comment = comment_form.save(commit=False)
-#             # Assign the current post to the comment
-#             new_comment.post = post
-#             new_comment.user = request.user
-#             # Save the comment to the database
-#             new_comment.save()
-#     else:
-#         comment_form = CommentForm()
+    context = {
+        'post': post,
+        'comments': comments,#        
+        'comment_form': comment_form,
+    }
 
-#     context = {
-#         'post': post,
-#         'comments': comments,
-#         'new_comment': new_comment,
-#         'comment_form': comment_form,
-#     }
+    return render(request, "blog/post_detail", context)
 
-#     return render(request, "blog/post_detail", context)
-
-class PostDetail(generic.DetailView):
-    model = Post
-    template_name = 'blog/post_detail.html'
-    pk_url_kwarg="id" 
+# class PostDetail(generic.DetailView):
+#     model = Post
+#     template_name = 'blog/post_detail.html'
+#     pk_url_kwarg="id" 
 
 class PostComment(generic.DetailView):
     model = Comment

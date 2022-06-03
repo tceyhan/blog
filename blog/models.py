@@ -4,8 +4,7 @@ from users.models import User
 # import uuid
 
 class Post(models.Model):
-    title = models.CharField(max_length=200, unique=True)
-    slug = models.SlugField(max_length=200, unique=True, null=True,)
+    title = models.CharField(max_length=200, unique=True)  
     image = models.ImageField(upload_to='images/', blank=True)
     imageUrl = models.URLField(blank=False, default='https://picsum.photos/seed/picsum/200/300')
     author = models.ForeignKey(User, on_delete= models.CASCADE, related_name='post_crated')
@@ -19,6 +18,7 @@ class Post(models.Model):
     )
 
     status = models.IntegerField(choices=STATUS, default=0)
+    slug = models.SlugField(max_length=200, unique=True, null=True,)
     
 
     class Meta:
@@ -28,41 +28,37 @@ class Post(models.Model):
         return self.title
     
     # def get_absolute_url(self):
-    #     from django.urls import reverse
-    #     return reverse("blog/post_detail", kwargs={"id": self.id})
+    #     return reverse("post_detail", kwargs={"slug": self.slug})
     
-    # def save(self, *args, **kwargs):
+    # def save(self, *args, **kwargs):  # new
     #     if not self.slug:
-    #         self.slug = slugify(self.title)+"-"+str(uuid.uuid4())
+    #         self.slug = slugify(self.title)+str(uuid.uuid4())
     #     return super().save(*args, **kwargs)
     
     def get_comments(self):
         comments = self.comment_set.all()
-        return self.comments.filter(active=True)
+        return self.comments.count()
+
+    def get_likes(self):
+        return Like.objects.filter(post=self).count()
 
 class Comment(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
-    name = models.CharField(max_length=80)
-    email = models.EmailField()
-    body = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True)
-    active = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-created_on']
+        ordering = ['-time']
 
     def __str__(self):
-        return 'Comment {} by {}'.format(self.body, self.name)
+        return 'Comment {} by {}'.format(self.content, self.user)
 
 ''' class Like(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    created_on = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['-created_on']
+    user = models.ForeignKey(User,on_delete=models.CASCADE)    
 
     def __str__(self):
-        return 'Like {} by {}'.format(self.post, self.user) '''
+        return self.post.title '''
      
 

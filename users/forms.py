@@ -13,15 +13,11 @@ class UserForm(UserCreationForm):
 class UserProfileForm(forms.ModelForm):
     class Meta():
         model = UserProfile
-        fields = ('bio', 'profile_pic',)
-        widgets = {
-            'profile_pic': forms.FileInput(attrs={'class': 'form-control bg-info', 'placeholder': 'Profile Picture*'}),
+        fields = ('bio','profile_pic')
+        widgets = {           
             'bio': forms.Textarea(attrs={'class': 'form-control bg-dark', 'placeholder': 'Biography*'}),
+            'profile_pic': forms.FileInput(attrs={'class': 'form-control bg-info'}),
         }
 
-class UpdateUserForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['username']
 
         

@@ -21,11 +21,12 @@
     {% endfor %}
   </div>
   {% include "./icons.html" %}
-
+ 
     <div class="card-footer">
       <a href="{% url 'post_update' post.id %}" class="btn btn-warning">Edit</a>
       <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">Delete</a>
     </div>
+ 
 
 </div>
 

@@ -6,35 +6,31 @@
       {% for comment in comments %}
       <div class="comments" style="padding: 10px">
         <p class="font-weight-bold">
-          {{ comment.name }}
+          {{ comment.user }}
           <span class="text-muted font-weight-normal">
-            {{ comment.created_on }}
+            {{ comment.time }}
           </span>
         </p>
-        {{ comment.body | linebreaks }}
+        {{ comment.content | linebreaks }}
       </div>
       {% endfor %}
     </div>
   </div>
-
+<!-- end comments -->
+<!-- comments form -->
+  {% if request.user.is_authenticated %}
   <div class="col-md-8 card mb-4 mt-3">
     <div class="card-body">
-      {% if new_comment %}
-      <div class="alert alert-success" role="alert">
-        Your comment is awaiting moderation
-      </div>
-      {% else %}
-      {% load crispy_forms_tags %}
-      <h3>Leave a comment</h3>
       
+      {% load crispy_forms_tags %}
+      <h3>Leave a comment</h3>      
       <form method="post" style="margin-top: 1.3em">
          {% csrf_token %}
          {{ comment_form | crispy }}
         <button type="submit" class="btn btn-info btn-sm">Submit</button>
-      </form>
-
-      {% endif %}
-     
+      </form>    
     </div>
   </div>
+  {% endif %}
+  
 </div>

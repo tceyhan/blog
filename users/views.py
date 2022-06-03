@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .forms import UserForm, UserProfileForm, UpdateUserForm
+from .forms import UserForm, UserProfileForm
 # add authenticate and login
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -44,22 +44,18 @@ def user_login(request):
 
 @login_required(login_url="/users/login/")
 def user_profile(request):
-    if request.method == 'POST':
-        update_form = UpdateUserForm(request.POST, instance=request.user)           
+    if request.method == 'POST':                 
         profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
-        if update_form.is_valid() and profile_form.is_valid():
-            update_form.save()
+        if  profile_form.is_valid():            
             profile_form.save()
             messages.success(request, "Profile updated successfully")
             return redirect('post_list')
     else:
         profile_form = UserProfileForm()
-        update_form = UpdateUserForm()
+       
   
     context = {       
         'profile_form': profile_form,
-        'update_form': update_form
-      
     }
     return render(request, 'users/profile.html', context)
 
