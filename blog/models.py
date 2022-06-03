@@ -4,8 +4,7 @@ from users.models import User
 # import uuid
 
 class Post(models.Model):
-    title = models.CharField(max_length=200, unique=True)  
-    image = models.ImageField(upload_to='images/', blank=True)
+    title = models.CharField(max_length=200, unique=True)    
     imageUrl = models.URLField(blank=False, default='https://picsum.photos/seed/picsum/200/300')
     author = models.ForeignKey(User, on_delete= models.CASCADE, related_name='post_crated')
     updated_on = models.DateTimeField(auto_now= True)
@@ -35,12 +34,12 @@ class Post(models.Model):
     #         self.slug = slugify(self.title)+str(uuid.uuid4())
     #     return super().save(*args, **kwargs)
     
-    def get_comments(self):
-        comments = self.comment_set.all()
-        return self.comments.count()
+    # def get_comments(self):
+    #     comments = self.comment_set.all()
+    #     return self.comments.count()
 
-    def get_likes(self):
-        return Like.objects.filter(post=self).count()
+    # def get_likes(self):
+    #     return Like.objects.filter(post=self).count()
 
 class Comment(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
@@ -54,11 +53,11 @@ class Comment(models.Model):
     def __str__(self):
         return 'Comment {} by {}'.format(self.content, self.user)
 
-''' class Like(models.Model):
+class Like(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)    
 
     def __str__(self):
-        return self.post.title '''
+        return self.post.title
      
 

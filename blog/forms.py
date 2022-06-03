@@ -4,10 +4,7 @@ from django import forms
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('title', 'content', 'status', 'imageUrl')
-        widgets = {            
-            'imageUrl': forms.FileInput(attrs={'class': 'form-control bg-info'}),
-        }    
+        fields = ('title', 'content', 'status', 'imageUrl',)      
    
 
 class CommentForm(forms.ModelForm):

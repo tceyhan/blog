@@ -1,5 +1,5 @@
 from django.views import generic
-from .models import Post, Comment
+from .models import Post, Comment, Like
 from .forms import CommentForm, PostForm
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse,reverse_lazy
@@ -19,9 +19,28 @@ class PostCreate(generic.CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+class PostUpdate(generic.UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = "blog/post_update.html"
+    success_url = reverse_lazy("post_list")
+    pk_url_kwarg="id"
     
-def post_detail(request, id):
-    post = get_object_or_404(Post, id=id)
+
+class PostDelete(generic.DeleteView):
+    model = Post
+    template_name = "blog/post_delete.html"
+    success_url = reverse_lazy("post_list")
+    pk_url_kwarg = "id" 
+
+class PostDetail(generic.DetailView):
+    model = Post
+    template_name = 'blog/post_detail.html'
+    pk_url_kwarg="id" 
+
+    
+''' def post_detail(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     comments = Comment.objects.filter(post=post).order_by('-id')  
 
     
@@ -39,33 +58,9 @@ def post_detail(request, id):
 
     context = {
         'post': post,
-        'comments': comments,#        
+        'comments': comments,       
         'comment_form': comment_form,
     }
 
-    return render(request, "blog/post_detail", context)
+    return render(request, "blog/post_detail", context) '''
 
-# class PostDetail(generic.DetailView):
-#     model = Post
-#     template_name = 'blog/post_detail.html'
-#     pk_url_kwarg="id" 
-
-class PostComment(generic.DetailView):
-    model = Comment
-    form_class = CommentForm
-    template_name = 'blog/comment.html'
-    pk_url_kwarg="id"
-
-class PostUpdate(generic.UpdateView):
-    model = Post
-    form_class = PostForm
-    template_name = "blog/post_update.html"
-    success_url = reverse_lazy("post_list")
-    pk_url_kwarg="id"
-    
-
-class PostDelete(generic.DeleteView):
-    model = Post
-    template_name = "blog/post_delete.html"
-    success_url = reverse_lazy("post_list")
-    pk_url_kwarg = "id" 
