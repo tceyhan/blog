@@ -13,20 +13,22 @@
   <div class="card-body">       
     <p class="text-left m-2">{{post.content|safe }}</p>  
   </div>
-  {% comment %} <div>
+  <div>
     {% for comment in post.comments %}
       <div class="card-footer text-left">
         <p class="text-left m-2">{{ comment.content }}</p>
       </div>
     {% endfor %}
-  </div> {% endcomment %}
+  </div>
+
   {% include "./icons.html" %}
- 
+
+ {% if request.user == post.author %}
     <div class="card-footer">
       <a href="{% url 'post_update' post.id %}" class="btn btn-warning">Edit</a>
       <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">Delete</a>
     </div>
- 
+ {% endif %}
 
 </div>
 
