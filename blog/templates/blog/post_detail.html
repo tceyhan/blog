@@ -13,13 +13,13 @@
   <div class="card-body">       
     <p class="text-left m-2">{{post.content|safe }}</p>  
   </div>
-  <div>
+  {% comment %} <div>
     {% for comment in post.comments %}
       <div class="card-footer text-left">
         <p class="text-left m-2">{{ comment.content }}</p>
       </div>
     {% endfor %}
-  </div>
+  </div> {% endcomment %}
   {% include "./icons.html" %}
  
     <div class="card-footer">

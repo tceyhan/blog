@@ -15,7 +15,7 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('bio','profile_pic')
         widgets = {           
-            'bio': forms.Textarea(attrs={'class': 'form-control bg-dark', 'placeholder': 'Biography*'}),
+            'bio': forms.Textarea(attrs={'class': 'form-control bg-info', 'placeholder': 'Biography*'}),
             'profile_pic': forms.FileInput(attrs={'class': 'form-control bg-info'}),
         }
 

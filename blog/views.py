@@ -7,7 +7,7 @@ from django.urls import reverse,reverse_lazy
 class PostList(generic.ListView):
     queryset = Post.objects.filter(status=1).order_by('-created_on')
     template_name = 'blog/post_list.html'
-    paginate_by = 7
+    paginate_by = 5
 
 class PostCreate(generic.CreateView):
     model = Post
